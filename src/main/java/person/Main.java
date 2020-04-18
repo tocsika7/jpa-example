@@ -45,12 +45,15 @@ public class Main {
 
     public static void addPeople(int number){
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        for(int i=0; i < number; i++){
-            em.persist(randomPerson());
+        try {
+            em.getTransaction().begin();
+            for (int i = 0; i < number; i++) {
+                em.persist(randomPerson());
+            }
+            em.getTransaction().commit();
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
     }
 
     public static List<Person> listPeople(){
